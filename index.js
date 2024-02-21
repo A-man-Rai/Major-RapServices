@@ -18,7 +18,7 @@ const PORT=process.env.PORT || 9001
 
 Connection().then(()=>{
   app.listen(PORT,()=>{
-    console.log("SERVER STARTED AT PORT "+PORT);
+    console.log("RAP SERVICE STARTED AT PORT "+PORT);
   });
 }).catch((err)=>{
   console.log(err.message);

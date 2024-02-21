@@ -25,7 +25,7 @@ const formSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    passportdateOfIssue: {
+    passportDateOfIssue: {
         type: String,
         required: true
     },
@@ -65,27 +65,15 @@ const formSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    
-    passphoto: {
-        data: Buffer,      
-        contentType: String, 
-        
+    returned:{
+        type:String
     },
-    signature: {
-        data: Buffer,
-        contentType: String,
-        
+    remarks:{
+        type:String
     },
-    passport: {
-        data: Buffer,
-        contentType: String,
-       
-    },
-    visa: {
-        data: Buffer,
-        contentType: String,
-        
-    },
+    status:{
+        type:String
+    }
 });
 
 const Form = mongoose.model("Application", formSchema)
