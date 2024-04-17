@@ -1,19 +1,22 @@
+import { PrismaClient } from "@prisma/client";
 
-import Form from "../Schema/formSchema.js";
+const prisma = new PrismaClient();
+const returnApplication = async (req, res) => {
+  const id = req.params.id;
+  const remarks = req.body.data;
 
-const returnApplication=async (req, res) => {
-  const id = req.params.id; 
-  const remarks=req.body.data
   try {
-    const existingForm = await Form.findOne({_id:id});
-    console.log(existingForm);
-    existingForm.returned = "YES";
-    existingForm.status="RETURNED BY ADMIN"
-    existingForm.remarks=remarks;
-    const updatedForm = await existingForm.save();
-    res.status(200).json({updatedForm,message:"Application updated"});
+    const existingForm = await prisma.form.update({
+      where: { id : parseInt(id)},
+      data: {
+        returned: "YES",
+        status: "RETURNED BY ADMIN",
+        remarks,
+      },
+    });
+    res.status(200).json({ existingForm, message: "Application updated" });
   } catch (error) {
-    console.error('Error updating form:', error);
+    console.error("Error updating form:", error);
     res.status(500).json({ message: "Error updating form" });
   }
 };

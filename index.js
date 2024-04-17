@@ -1,26 +1,28 @@
 import express from "express";
-import Connection from "./Database/Connection.js";
-import router from "./Routes/route.js"
-import cors from "cors"
-import bodyParser from "body-parser";
-const app=express();
+import router from "./Routes/mainRouter.js";
+import cors from "cors";
 
-app.use(cors({
-  origin: process.env.CLIENT,
-  credentials: true,
-}));
+const app = express();
 
-app.use(bodyParser.json({ limit: '3mb' }));
-app.use(bodyParser.urlencoded({ limit: '3mb', extended: true }));
-app.use("/",router);
+app.use(
+  cors({
+    origin: process.env.CLIENT,
+    credentials: true,
+  })
+);
 
-const PORT=process.env.PORT || 9001
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-Connection().then(()=>{
-  app.listen(PORT,()=>{
-    console.log("RAP SERVICE STARTED AT PORT "+PORT);
-  });
-}).catch((err)=>{
-  console.log(err.message);
-})
 
+
+
+
+app.use("/", router);
+
+
+const PORT = process.env.PORT || 9001;
+
+app.listen(PORT, () => {
+  console.log("RAP SERVICE STARTED AT PORT " + PORT);
+});

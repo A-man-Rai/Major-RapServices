@@ -1,36 +1,46 @@
-import Form from "../Schema/formSchema.js";
-
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 const saveApplication = async (req, res) => {
   try {
-    const formData  = req.body;
-    const newForm = new Form({
-      name: formData.name,
-      dob: formData.dob,
-      userId:formData.userId,
-      nationality: formData.nationality,
-      occupation: formData.occupation,
-      passportNo: formData.passportNo,
-      passportDateOfIssue: formData.dateOfIssue,
-      passportValidUpto: formData.validUpTo,
-      ilpNo: formData.ilpNo,
-      visaNo: formData.visaNo,
-      visaIssue: formData.visaIssue,
-      visaValidUpto: formData.visaValidUpto,
-      residentialAddress: formData.residentialAddress,
-      dateOfVisit: formData.dateOfVisit,
-      durationOfStay: formData.durationOfStay,
-      travelArrangementBy: formData.travelArrangement,
-      returned:"NO",
-      status:"PENDING",
+    const formData = req.body;
+    const newForm = await prisma.form.create({
+      data: {
+        name: formData.name,
+        dob: formData.dob,
+        userId: parseInt(formData.userId),
+        nationality: formData.nationality,
+        occupation: formData.occupation,
+        passportNo: formData.passportNo,
+        passportDateOfIssue: formData.dateOfIssue,
+        passportValidUpto: formData.validUpTo,
+        ilpNo: formData.ilpNo,
+        visaNo: formData.visaNo,
+        visaIssue: formData.visaIssue,
+        visaValidUpto: formData.visaValidUpto,
+        residentialAddress: formData.residentialAddress,
+        dateOfVisit: formData.dateOfVisit,
+        durationOfStay: formData.durationOfStay,
+        travelArrangementBy: formData.travelArrangement,
+      },
     });
-
-    const savedForm = await newForm.save();
-     console.log("saved");
-    res.status(200).send({id:savedForm._id, message:'Form data with images saved successfully',submit:true});
+ // console.log(newForm);
+    const createMany = await prisma.documents.createMany({
+      data: [
+        { link:formData.urlA ,formId:newForm.id},
+        { link:formData.urlB ,formId:newForm.id},
+        { link:formData.urlC ,formId:newForm.id},
+      ],
+    })
+   
+    res.status(200).send({
+      id: newForm.id,
+      message: "Form data   saved successfully",
+      submit: true,
+    });
   } catch (error) {
-    console.error('Error storing form data with images:', error);
-    res.status(500).send('Error storing form data with images');
+    console.error("Error storing form data:", error);
+    res.status(500).send("Error storing form data");
   }
 };
 

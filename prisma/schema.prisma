@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Form {
+  id                  Int    @id @default(autoincrement())
+  name                String
+  userId              Int
+  dob                 String
+  nationality         String
+  occupation          String
+  passportNo          String
+  passportDateOfIssue String
+  passportValidUpto   String
+  ilpNo               String
+  visaNo              String
+  visaIssue           String
+  visaValidUpto       String
+  residentialAddress  String
+  dateOfVisit         String
+  durationOfStay      String
+  travelArrangementBy String
+  returned            String @default("NO")
+  remarks             String?
+  status              String @default("PENDING")
+  documents           Documents[]
+}
+
+model Documents {
+    id       Int  @id @default(autoincrement())
+    form     Form @relation(fields: [formId], references: [id])
+    formId   Int
+    link     String
+}
