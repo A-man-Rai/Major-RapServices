@@ -11,10 +11,11 @@ import verifyAdmin from "../middleware/verifyAdmin.js";
 import getLinks from "../Callbacks/getImageLinks.js";
 import getAllApproved from "../Callbacks/getApproved.js"
 import updateImageLink from "../Callbacks/updateImageLink.js";
+import convertPdf  from "../Callbacks/convertPdf.js"
 const router = express.Router();
 
 router.use("/applications", applicationRouter);
-router.get('/approved',getAllApproved);
+router.get('/approved',verifyAdmin,getAllApproved);
 router.patch("/return/:id", verifyAdmin, returnApplication); //select application as returned for admin //done
 router.patch("/reject/:id", verifyAdmin, rejectAppication); //mark application as rejected for admin  //done
 router.patch("/approved/:id", verifyAdmin, approvedByAdmin); //mark application as approved for admin //done
@@ -25,5 +26,6 @@ router.patch("/update", verifyToken, updateApplication); // update submitted app
 router.get("/links/:id",getLinks)
 router.patch("/links/:id",verifyToken,updateImageLink)
 
+router.post("/pdf",verifyAdmin,convertPdf)
 
 export default router;

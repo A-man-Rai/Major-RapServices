@@ -30,6 +30,7 @@ const saveApplication = async (req, res) => {
         { link:formData.urlA ,formId:newForm.id},
         { link:formData.urlB ,formId:newForm.id},
         { link:formData.urlC ,formId:newForm.id},
+        { link:formData.urlD ,formId:newForm.id},
       ],
     })
    
