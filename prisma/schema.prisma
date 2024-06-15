@@ -36,6 +36,8 @@ model Form {
   remarks             String?
   status              String @default("PENDING")
   documents           Documents[]
+  expiry              DateTime?
+  notify              DateTime?
 }
 
 model Documents {
@@ -44,3 +46,14 @@ model Documents {
     formId   Int
     link     String
 }
+
+
+model Records{
+  id Int @id @default(autoincrement())
+  records Int
+  approved Int
+  rejected Int 
+
+}
+
+

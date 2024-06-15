@@ -5,6 +5,7 @@ const secretKey = process.env.JWT_SECRET;
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];
+  
   if (!token) {
     return res.status(403).json({ message: "Token is not provided" });
   }

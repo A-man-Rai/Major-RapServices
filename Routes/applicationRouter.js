@@ -7,8 +7,8 @@ import verifyToken from "../middleware/verifyToken.js";
 
 const router = express.Router();
 
-router.get("/",verifyAdmin,getAllApplication); //get all pending applications for admin
+router.get("/",getAllApplication); //get all pending applications for admin
 router.get("/returned",verifyAdmin, getAllReturnedApplication); // get all application returned for admin
-router.get("/:id", verifyToken,getAllUserApplication); // get all details of a particular application
+router.get("/:id",getAllUserApplication); // get all details of a particular application
 
 export default router;
